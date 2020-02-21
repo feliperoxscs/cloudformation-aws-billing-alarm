@@ -1,0 +1,10 @@
+[
+    {
+        "ParameterKey": "EmailAddress",
+        "ParameterValue": "name@domain.com"
+    },
+    {
+        "ParameterKey": "Dolars",
+        "ParameterValue": "50"
+    }
+]

@@ -1,0 +1,45 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: 'Billing Alerts for AWS Account'
+
+Parameters:
+
+  EmailAddress:
+    Type: String
+    Description: "Enter email address for billing alerts"
+    AllowedPattern: ^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$
+  Period:
+    Type: Number
+    Description: "Enter a period of metrics verification"
+    Default: 21600
+  Dolars:
+    Type: Number
+    Description: "Enter a value of bucks you want to use as limiter of billing"
+    
+Resources:
+
+  BillingAlert:
+    Type: AWS::CloudWatch::Alarm
+    DependsOn: BillingAlertTopic
+    Properties:
+      AlarmActions:
+        - !Ref BillingAlertTopic
+      AlarmDescription: "Account Billing Alert for x value"
+      AlarmName: "Billing Alert"
+      ComparisonOperator: GreaterThanThreshold
+      Dimensions:
+        - Name: Currency
+          Value: USD
+      EvaluationPeriods: 1
+      MetricName: EstimatedCharges
+      Namespace: AWS/Billing
+      Period: !Ref Period
+      Statistic: Maximum
+      Threshold: !Ref Dolars
+  
+  BillingAlertTopic:
+    Type: AWS::SNS::Topic
+    Properties:
+      TopicName: "billing-alert"
+      Subscription:
+      - Endpoint: !Ref EmailAddress
+        Protocol: email
