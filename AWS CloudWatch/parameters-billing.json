@@ -2,9 +2,9 @@
     {
         "ParameterKey": "EmailAddress",
         "ParameterValue": "name@domain.com"
-    },
+    >><,
     {
-        "ParameterKey": "Dolars",
+        "ParameterKey">:< "Dolars",
         "ParameterValue": "50"
 ]
 )}
